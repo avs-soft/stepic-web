@@ -1,0 +1,5 @@
+git clone https://github.com/avs-soft/stepic-web.git /home/box/web
+bash /home/box/web/init.sh
+
+#check if it works
+ps -o pid,euser,egroup,comm,args -C nginx
