@@ -6,7 +6,21 @@ ps -o pid,euser,egroup,comm,args -C nginx
 
 
 
+А вообще, там по умолчанию вот такое стоит:
+$ django-admin --version
+1.6.1
+$ python --version
+Python 2.7.6
+$ gunicorn --version
+gunicorn (version 17.5)
+$ nginx -version
+nginx version: nginx/1.4.6 (Ubuntu)
 
+
+
+ Логи можно поизучать:
+   /var/log/nginx/
+   /var/log/gunicorn/
 
 
 http://127.0.0.1/hello/?a=1&a=2&b=3
