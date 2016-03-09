@@ -1,5 +1,19 @@
 git clone https://github.com/avs-soft/stepic-web.git /home/box/web
+bash /home/box/web/init-mysql.sh
 bash /home/box/web/init.sh
+
+
+
+
+#installed for django
+sudo apt-get install python-mysqldb
+
+#на всякий случай поставил и это
+apt-get install libmysqlclient-dev
+apt-get install python-dev
+
+
+
 
 #check if it works
 ps -o pid,euser,egroup,comm,args -C nginx
@@ -21,6 +35,34 @@ nginx version: nginx/1.4.6 (Ubuntu)
  Логи можно поизучать:
    /var/log/nginx/
    /var/log/gunicorn/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 http://127.0.0.1/hello/?a=1&a=2&b=3
