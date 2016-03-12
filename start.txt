@@ -3,6 +3,11 @@ bash /home/box/web/init-mysql.sh
 bash /home/box/web/init.sh
 
 
+git push
+git config --global credential.helper store
+
+
+
 
 
 #installed for django
