@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.contrib.auth.models import User
 from qa.models import *
 
 class AskForm(forms.Form): #форма добавления вопроса
@@ -7,6 +8,7 @@ class AskForm(forms.Form): #форма добавления вопроса
     text  = forms.CharField(widget=forms.Textarea, min_length=1) #поле текста вопроса
     
     def save(self):
+        self.cleaned_data['author'] = self._user
         question = Question(**self.cleaned_data)
         question.save()
         return question
@@ -43,6 +45,7 @@ class AnswerForm(forms.Form): #форма добавления ответа
 #        return question
     
     def save(self):
+        self.cleaned_data['author'] = self._user
         self.cleaned_data['question'] = self._question
         answer = Answer(**self.cleaned_data)
         answer.save()
@@ -50,5 +53,41 @@ class AnswerForm(forms.Form): #форма добавления ответа
     
     def clean(self):
         return self.cleaned_data
+
+
+
+class SignupForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    def save(self):
+        user = User.objects.create_user(**self.cleaned_data)
+        return user
+
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=255, min_length=1) 
+    password = forms.CharField(max_length=255, min_length=1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

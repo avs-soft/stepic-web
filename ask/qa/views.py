@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from qa.models import *
 from qa.forms import *
 
@@ -45,6 +48,7 @@ def question_details(request, id):
         
     if request.method == "POST":
         form = AnswerForm(request.POST, _question=question)
+        form._user = request.user
         if form.is_valid():
             answer = form.save()
             url = answer.question.get_url()
@@ -87,6 +91,7 @@ def popular_questions(request):
 def new_question(request):
     if request.method == "POST":
         form = AskForm(request.POST)
+        form._user = request.user
         if form.is_valid():
             #return HttpResponse(str(form.cleaned_data))
             question = form.save()
@@ -105,6 +110,48 @@ def new_question(request):
 def add_answer(request): #stub for test
     return HttpResponse('OK')
     #return HttpResponse(str(request.POST.get('question', 'X')))
+
+
+
+def user_signup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            #return HttpResponse('OK '+str(form.cleaned_data))
+            form.save()
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = SignupForm()
+    return render(request, 'form.html', {
+        'form': form,
+        'POST_url': '/signup/',
+        'webpage_title': 'Создание нового пользователя',
+    })
+
+
+
+def user_login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    else:
+        form = LoginForm()
+    return render(request, 'form.html', {
+        'form': form,
+        'POST_url': '/login/',
+        'webpage_title': 'Авторизация',
+    })
+
+
+
+
+
 
 
 

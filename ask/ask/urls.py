@@ -13,8 +13,8 @@ urlpatterns = patterns('',
     #url(r'^', include('qa.urls'))  - other way - in another file
     
     url(r'^$', 'qa.views.questions', name='questions'),
-    url(r'^login/.*$', 'qa.views.test', name='login'),
-    url(r'^signup/.*$', 'qa.views.test', name='signup'),
+    url(r'^login/$', 'qa.views.user_login', name='user_login'),
+    url(r'^signup/$', 'qa.views.user_signup', name='user_signup'),
     url(r'^question/(?P<id>\d+)/$', 'qa.views.question_details', name='question_details'),
     url(r'^ask/$', 'qa.views.new_question', name='new_question'),
     url(r'^popular/$', 'qa.views.popular_questions', name='popular_questions'),
